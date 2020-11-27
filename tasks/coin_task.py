@@ -46,13 +46,14 @@ async def coin_task(biliapi: asyncbili,
             if flag:
                 try:
                     ret = await biliapi.coinCv(aid, 1, flag, 1)
+                    await biliapi.likeCv(aid)
                 except Exception as e:
                     logging.warning(f'{biliapi.name}: 投币专栏{aid}异常，原因为{str(e)}，跳过投币')
                     break
                 else:
                     if ret["code"] == 0:
                         toubi_num -= 1
-                        logging.info(f'{biliapi.name}: 成功给专栏{aid}视频投一个币')
+                        logging.info(f'{biliapi.name}: 成功给专栏{aid}投一个币')
                         su += 1
                     elif ret["code"] == 34005:
                         logging.warning(f'{biliapi.name}: 投币专栏{aid}失败，原因为{ret["message"]}')
